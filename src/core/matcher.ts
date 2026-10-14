@@ -101,7 +101,7 @@ export function createTracker(words: readonly string[], options: TrackerOptions 
 
   // Fuzzy similarity is memoized: scripts reuse a limited vocabulary, and the whole-script
   // search after losing track would otherwise recompute it ~100k times per update.
-  // ponytail: unbounded growth is capped by clearing; an LRU is overkill here.
+  // Growth is capped by clearing the map; an LRU is overkill here.
   const fuzzyCache = new Map<string, boolean>();
   const fuzzy = (h: string, s: string): boolean => {
     const longer = Math.max(h.length, s.length);

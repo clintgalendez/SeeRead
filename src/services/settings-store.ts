@@ -58,7 +58,7 @@ export function subscribeSettings(listener: Listener): () => void {
 
 /**
  * Read-modify-write against the latest stored value.
- * ponytail: last write wins across windows; fine for human-speed edits. Add a
+ * Last write wins across windows; fine for human-speed edits. Add a
  * single-writer queue in Rust if settings ever change from background tasks.
  */
 export async function updateSettings(change: (s: Settings) => Settings): Promise<Settings> {

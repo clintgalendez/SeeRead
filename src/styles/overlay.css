@@ -18,6 +18,8 @@ body,
 .overlay .prompter {
   flex: 1;
   min-height: 0;
+  /* Readers can highlight and copy the script; the editor preview stays unselectable. */
+  user-select: text;
 }
 
 .overlay-bar {

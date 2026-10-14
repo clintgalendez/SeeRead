@@ -6,6 +6,12 @@ All notable changes to SeeRead are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- Hovering a highlighted button (Start, the active reading mode, or a selected toggle) no longer
+  swaps its accent colour for the plain hover background, which made its label hard to read or
+  invisible in the dark and high-contrast themes.
+
 ## [0.2.0] - 2026-10-14
 
 ### Added

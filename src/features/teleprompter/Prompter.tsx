@@ -200,6 +200,8 @@ export const Prompter = forwardRef<PrompterHandle, Props>(function Prompter(
           onClick={
             onWordClick
               ? (e) => {
+                  // A click that ends a text selection is for copying, not for moving the reader.
+                  if (getSelection()?.isCollapsed === false) return;
                   const w = (e.target as HTMLElement).closest<HTMLElement>(".w");
                   if (w) onWordClick(Number(w.dataset.first));
                 }

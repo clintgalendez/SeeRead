@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://clintgalendez.github.io/SeeRead/sitemap.xml

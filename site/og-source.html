@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>SeeRead share image</title>
+    <!-- Source for images/og.png (1200 x 630). Re-render with a headless browser screenshot. -->
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        width: 1200px;
+        height: 630px;
+        margin: 0;
+        overflow: hidden;
+      }
+      .og {
+        display: grid;
+        grid-template-columns: 640px 1fr;
+        gap: 48px;
+        height: 100%;
+        padding: 56px 64px;
+      }
+      .og .brand {
+        font-size: 1.75rem;
+      }
+      .og h1 {
+        margin: 40px 0 0;
+        font-size: 4.25rem;
+      }
+      .og h1 > span {
+        animation: none;
+      }
+      .og-line {
+        margin: 28px 0 0;
+        color: var(--soft);
+        font-size: 1.375rem;
+      }
+      .og .prompter {
+        align-self: center;
+      }
+      .og .prompter-window {
+        --guide: 104px;
+        height: 330px;
+      }
+      .og .prompter-text,
+      .og .prompter-window .guide {
+        --tp-size: 1.75rem;
+      }
+      .og .prompter-text {
+        padding-top: 60px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="og">
+      <div>
+        <span class="brand"><img src="favicon.svg" alt="" width="52" height="52" />SeeRead</span>
+        <h1 class="cap cap-xl">
+          <span>Read your script.</span><br /><span>Keep your eyes</span><br /><span
+            >on the lens.</span
+          >
+        </h1>
+        <p class="og-line">Free, open-source teleprompter that follows your voice.</p>
+      </div>
+      <div class="prompter">
+        <div class="prompter-bar">
+          <span class="prompter-status">Voice · on this computer</span>
+        </div>
+        <div class="prompter-window">
+          <div class="guide">
+            <svg viewBox="0 0 10 16"><path d="M0 0 L10 8 L0 16 Z" /></svg>
+          </div>
+          <div class="prompter-text">
+            <p>
+              <span class="w read">No account,</span> <span class="w read">no</span>
+              <span class="w read">cloud.</span> <span class="w read">It</span>
+              <span class="w cur">follows</span> <span class="w">my</span>
+              <span class="w">voice.</span> <span class="ann">[Smile.]</span> Just read.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

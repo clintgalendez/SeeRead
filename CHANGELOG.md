@@ -6,6 +6,10 @@ All notable changes to SeeRead are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Text in the teleprompter can be highlighted and copied with Ctrl/⌘+C or the right-click menu.
+
 ### Fixed
 
 - Hovering a highlighted button (Start, the active reading mode, or a selected toggle) no longer

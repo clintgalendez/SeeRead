@@ -95,6 +95,18 @@ test("switching modes keeps the reading position", async ({ page }) => {
   expect(Math.abs((await scrollTop(overlay)) - before)).toBeLessThan(200);
 });
 
+test("overlay text can be highlighted and copied", async ({ page }) => {
+  const overlay = await openBoth(page);
+  await overlay.locator(".w", { hasText: "explains" }).first().dblclick();
+  await expect
+    .poll(() => overlay.evaluate(() => getSelection()?.toString().trim()))
+    .toBe("explains");
+  await overlay.keyboard.press("ControlOrMeta+C");
+  await expect
+    .poll(() => overlay.evaluate(() => navigator.clipboard.readText()))
+    .toContain("explains");
+});
+
 test("clicking a word moves the voice position there", async ({ page }) => {
   const overlay = await openBoth(page, { mode: "voice" });
   await page.getByRole("button", { name: "Start", exact: true }).click();

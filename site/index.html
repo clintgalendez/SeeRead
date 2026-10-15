@@ -1,0 +1,912 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SeeRead: free, private teleprompter that follows your voice</title>
+    <meta
+      name="description"
+      content="Free, open-source desktop teleprompter for Windows, macOS and Linux. It follows your voice on your own computer: no account, no cloud."
+    />
+    <link rel="canonical" href="https://clintgalendez.github.io/SeeRead/" />
+    <meta name="theme-color" content="#2150cf" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SeeRead" />
+    <meta
+      property="og:title"
+      content="SeeRead: a teleprompter that follows your voice, privately"
+    />
+    <meta
+      property="og:description"
+      content="Free, open-source desktop teleprompter. Floats beside your camera, follows your voice on your own computer. No account, no cloud."
+    />
+    <meta property="og:url" content="https://clintgalendez.github.io/SeeRead/" />
+    <meta property="og:image" content="https://clintgalendez.github.io/SeeRead/images/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="SeeRead: Read your script. Keep your eyes on the lens."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link
+      rel="preload"
+      href="fonts/atkinson-hyperlegible-next.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="site.js" defer></script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "SeeRead",
+        "description": "A free, open-source desktop teleprompter that floats beside your camera and follows your voice with on-device speech recognition. No account, no cloud, no telemetry.",
+        "url": "https://clintgalendez.github.io/SeeRead/",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Windows 10, Windows 11, macOS 11 or later, Linux",
+        "downloadUrl": "https://github.com/clintgalendez/SeeRead/releases/latest",
+        "license": "https://www.apache.org/licenses/LICENSE-2.0",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "image": "https://clintgalendez.github.io/SeeRead/images/og.png",
+        "screenshot": "https://clintgalendez.github.io/SeeRead/images/overview.webp",
+        "featureList": [
+          "Floating, always-on-top, see-through teleprompter window",
+          "Voice tracking with on-device speech recognition",
+          "Automatic scrolling with adjustable speed",
+          "Stage directions that are shown but never need to be spoken",
+          "Mirror modes for glass teleprompter rigs",
+          "Global keyboard shortcuts",
+          "Script editor with autosave and crash recovery"
+        ],
+        "author": {
+          "@type": "Person",
+          "name": "Clint Galendez",
+          "url": "https://github.com/clintgalendez"
+        },
+        "sameAs": ["https://github.com/clintgalendez/SeeRead"]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is SeeRead free?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. SeeRead is free and open source under the Apache License 2.0, and it needs no account."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does SeeRead need an internet connection?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. After you download it, SeeRead makes no network connections while it runs: no update checks, no analytics, no telemetry and no remote fonts."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is my voice recorded or sent anywhere?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Audio is processed in memory by the speech engine on your computer and discarded immediately. It is never written to disk, logged or transmitted."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which languages does voice tracking support?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An English model is bundled. You can add any sherpa-onnx streaming transducer model for other languages. Auto-scroll works with a script in any language."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Will the teleprompter show up in my recording or video call?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "SeeRead can ask the operating system to leave the teleprompter out of captures. On Windows 10 version 2004 and later it is hidden from most capture and sharing tools; on macOS it is best effort; on Linux it is not supported. This is never a guarantee, so always check a test recording."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I use SeeRead with a glass teleprompter rig?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. The teleprompter can be mirrored horizontally, vertically or both."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does Windows or macOS warn me when I open the installer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The installers are not code-signed yet, so Windows SmartScreen and macOS Gatekeeper warn on first launch. Every release lists SHA-256 checksums and carries build-provenance attestations so you can verify your download."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I control the teleprompter while another app has focus?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Global shortcuts start, pause, restart, stop and change speed while your recorder or video call has focus. On Linux they need an X11 or XWayland session; native Wayland does not allow them."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <svg aria-hidden="true" class="sprite">
+      <symbol id="arrow" viewBox="0 0 16 16">
+        <path
+          d="M8 13.5V3M3.5 7.5 8 3l4.5 4.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </symbol>
+    </svg>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="masthead">
+      <a class="brand" href="./" aria-label="SeeRead home">
+        <img src="favicon.svg" alt="" width="36" height="36" />
+        <span>SeeRead</span>
+      </a>
+      <nav aria-label="Sections">
+        <ul>
+          <li class="nav-section"><a href="#voice">Voice tracking</a></li>
+          <li class="nav-section"><a href="#overlay">Overlay</a></li>
+          <li class="nav-section"><a href="#privacy">Privacy</a></li>
+          <li class="nav-section"><a href="#faq">FAQ</a></li>
+          <li><a href="https://github.com/clintgalendez/SeeRead">GitHub</a></li>
+          <li><a class="nav-download" href="#download">Download</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <h1 id="hero-title" class="cap cap-xl">
+            <span>Read your script.</span><br /><span>Keep your eyes</span><br /><span
+              >on the lens.</span
+            >
+          </h1>
+          <p class="lede">
+            SeeRead is a free, open-source teleprompter for your desktop. It floats beside your
+            camera and follows your voice, entirely on your own computer: no account, no cloud.
+          </p>
+          <div class="actions">
+            <a
+              class="btn btn-primary"
+              href="https://github.com/clintgalendez/SeeRead/releases/latest"
+              data-download
+              >Download SeeRead</a
+            >
+            <a class="btn btn-quiet" href="https://github.com/clintgalendez/SeeRead"
+              >Source on GitHub</a
+            >
+          </div>
+          <p class="fineprint">Windows, macOS and Linux · Apache-2.0 · Early release</p>
+        </div>
+
+        <figure class="demo" id="demo" aria-labelledby="demo-caption">
+          <div class="prompter" data-mode="voice">
+            <div class="prompter-bar">
+              <svg class="handle" viewBox="0 0 10 16" aria-hidden="true">
+                <circle cx="2" cy="2" r="1.5" />
+                <circle cx="8" cy="2" r="1.5" />
+                <circle cx="2" cy="8" r="1.5" />
+                <circle cx="8" cy="8" r="1.5" />
+                <circle cx="2" cy="14" r="1.5" />
+                <circle cx="8" cy="14" r="1.5" />
+              </svg>
+              <span class="prompter-status" data-status>Voice · simulated</span>
+            </div>
+            <div class="prompter-window">
+              <div class="guide" aria-hidden="true">
+                <svg viewBox="0 0 10 16"><path d="M0 0 L10 8 L0 16 Z" /></svg>
+              </div>
+              <div class="prompter-text" data-script>
+                <p>
+                  Hi. I'm recording this in one take.
+                  <span class="ann">[Look into the lens.]</span>
+                </p>
+                <p>The words follow my voice, so when I stop to think, they wait for me.</p>
+                <p>
+                  If I say the same phrase twice, the same phrase twice, they stay with me instead
+                  of jumping ahead.
+                </p>
+                <p>
+                  <span class="ann">[Smile.]</span> And it all runs on this computer, with no
+                  account and no cloud.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="transcript" aria-hidden="true">
+            <span class="transcript-label">Heard</span>
+            <p data-heard></p>
+          </div>
+          <div class="demo-controls">
+            <div class="seg" role="group" aria-label="Reading mode">
+              <button type="button" data-mode-btn="voice" aria-pressed="true">Voice</button>
+              <button type="button" data-mode-btn="auto" aria-pressed="false">Auto-scroll</button>
+            </div>
+            <button type="button" class="ctl" data-play>Play</button>
+            <button type="button" class="ctl" data-restart>Restart</button>
+          </div>
+          <figcaption id="demo-caption">
+            A simulation in your browser: the microphone is never used and nothing is sent. In the
+            app, SeeRead listens to you, on your computer.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="sec" id="voice" aria-labelledby="voice-title">
+        <span class="tc" aria-hidden="true" data-tc></span>
+        <div class="sec-body">
+          <h2 id="voice-title" class="cap">
+            <span>It follows your voice.</span><br /><span>It never guesses ahead.</span>
+          </h2>
+          <p class="intro">
+            In Voice mode, SeeRead listens with speech recognition that runs on your computer. Every
+            phrase you say is matched against the script near your place, so the text moves with you
+            and nowhere else. Small steps forward need little evidence; bigger moves need several
+            matching words.
+          </p>
+          <ol class="log">
+            <li>
+              <span class="heard"><span class="cue">[silence]</span></span>
+              <p><strong>You stop to think.</strong> The text waits. Silence never moves it.</p>
+            </li>
+            <li>
+              <span class="heard">“the same phrase twice”</span>
+              <p>
+                <strong>A line comes up again later in the script.</strong> SeeRead stays with the
+                nearest match instead of leaping to the other one.
+              </p>
+            </li>
+            <li>
+              <span class="heard">“…and that's why we…”</span>
+              <p>
+                <strong>You skip a passage.</strong> After a few words that match further on, it
+                catches up with you.
+              </p>
+            </li>
+            <li>
+              <span class="heard">“…as I said, our results…”</span>
+              <p><strong>You re-read a sentence.</strong> It goes back only when you clearly do.</p>
+            </li>
+            <li>
+              <span class="heard">“keep your eyes on the lands”</span>
+              <p>
+                <strong>A word is misheard.</strong> Close matches still count, and one stray word
+                never yanks the text.
+              </p>
+            </li>
+            <li>
+              <span class="heard"><span class="cue">[click]</span></span>
+              <p>
+                <strong>You lose your place anyway.</strong> Click the word you're on, or press
+                <kbd class="arrow arrow-left"
+                  ><svg aria-hidden="true"><use href="#arrow" /></svg
+                  ><span class="vh">Left arrow</span></kbd
+                >
+                /
+                <kbd class="arrow arrow-right"
+                  ><svg aria-hidden="true"><use href="#arrow" /></svg
+                  ><span class="vh">Right arrow</span></kbd
+                >
+                to nudge.
+              </p>
+            </li>
+          </ol>
+          <p class="note">
+            Recognition uses the open-source
+            <a href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> engine with a bundled
+            English model. Audio is processed in memory and thrown away. For other languages, add
+            any sherpa-onnx streaming model folder.
+          </p>
+        </div>
+      </section>
+
+      <section class="sec sec-deep" id="auto-scroll" aria-labelledby="auto-title">
+        <span class="tc" aria-hidden="true" data-tc></span>
+        <div class="sec-body sec-split">
+          <h2 id="auto-title" class="cap">
+            <span>No microphone?</span><br /><span>It scrolls for you.</span>
+          </h2>
+          <div>
+            <p class="intro">
+              Auto-scroll moves the script at a steady pace you set, and the moment you scroll with
+              the mouse wheel or the keyboard, you are in charge. Switching between Auto-scroll and
+              Voice keeps your place.
+            </p>
+            <ul class="ticks">
+              <li>
+                Adjustable speed and acceleration, live with
+                <kbd class="arrow arrow-up"
+                  ><svg aria-hidden="true"><use href="#arrow" /></svg
+                  ><span class="vh">Up arrow</span></kbd
+                >
+                /
+                <kbd class="arrow arrow-down"
+                  ><svg aria-hidden="true"><use href="#arrow" /></svg
+                  ><span class="vh">Down arrow</span></kbd
+                >
+              </li>
+              <li>A countdown before it starts, and optional pauses between paragraphs</li>
+              <li>Loop back to the top or stop at the end</li>
+            </ul>
+            <p>
+              <button type="button" class="link-btn" data-try-auto>
+                Try Auto-scroll in the demo
+              </button>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec sec-deep" id="stage-directions" aria-labelledby="stage-title">
+        <span class="tc" aria-hidden="true" data-tc></span>
+        <div class="sec-body sec-split">
+          <h2 id="stage-title" class="cap">
+            <span><span class="cue">[Pause. Smile.]</span></span
+            ><br /><span>Seen, never spoken.</span>
+          </h2>
+          <div>
+            <p class="intro">
+              Anything in square brackets is a stage direction. It stays on screen in its own
+              colour, voice tracking skips right over it, and it never moves your place.
+            </p>
+            <pre
+              class="script-sample"
+            ><code>Welcome, everyone. <span class="cue">[Wait for the room to settle.]</span>
+Today I'll walk you through our results.
+<span class="cue">&gt;&gt; Slide 2</span>
+The short version: it worked.</code></pre>
+            <p>
+              Prefer other markers? Add <code>( )</code>, <code>{ }</code>,
+              <code>&lt; &gt;</code> or any pair of your own, mark whole lines with a prefix such as
+              <code>&gt;&gt;</code>, hide directions while you read, and use
+              <strong>Export clean copy</strong> to save a version without them.
+            </p>
+            <p>
+              The script editor around it has what a script needs: open and save plain
+              <code>.txt</code> and <code>.md</code> files, find and replace, undo, word count, a
+              reading-time estimate, autosave and crash recovery.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec" id="overlay" aria-labelledby="overlay-title">
+        <span class="tc" aria-hidden="true" data-tc></span>
+        <div class="sec-body">
+          <h2 id="overlay-title" class="cap">
+            <span>It floats beside</span><br /><span>your camera.</span>
+          </h2>
+          <p class="intro">
+            The teleprompter is its own see-through window that stays on top of your recorder, call
+            or slides. Put it right under the webcam, drag it by its handle and resize it from the
+            corner.
+          </p>
+
+          <h3 class="sub">One line, five ways</h3>
+          <ul class="edition">
+            <li>
+              <div class="mini">
+                <p>
+                  <span class="l read">in one take.</span
+                  ><span class="l"
+                    ><span class="read">Keep your</span> <span class="now">eyes</span></span
+                  ><span class="l">on the lens.</span>
+                </p>
+              </div>
+              <span>Default tint and reading guide</span>
+            </li>
+            <li>
+              <div class="mini mini-contrast">
+                <p>
+                  <span class="l read">in one take.</span
+                  ><span class="l"
+                    ><span class="read">Keep your</span> <span class="now">eyes</span></span
+                  ><span class="l">on the lens.</span>
+                </p>
+              </div>
+              <span>Yellow on black</span>
+            </li>
+            <li>
+              <div class="mini mini-mirror">
+                <p>
+                  <span class="l read">in one take.</span
+                  ><span class="l"
+                    ><span class="read">Keep your</span> <span class="now">eyes</span></span
+                  ><span class="l">on the lens.</span>
+                </p>
+              </div>
+              <span>Mirrored for a glass rig</span>
+            </li>
+            <li>
+              <div class="mini mini-large">
+                <p>
+                  <span class="l read">in one take.</span
+                  ><span class="l"
+                    ><span class="read">Keep your</span> <span class="now">eyes</span></span
+                  ><span class="l">on the lens.</span>
+                </p>
+              </div>
+              <span>Large and centred</span>
+            </li>
+            <li>
+              <div class="mini mini-clear">
+                <p>
+                  <span class="l read">in one take.</span
+                  ><span class="l"
+                    ><span class="read">Keep your</span> <span class="now">eyes</span></span
+                  ><span class="l">on the lens.</span>
+                </p>
+              </div>
+              <span>No tint, text shadow</span>
+            </li>
+          </ul>
+
+          <div class="overlay-grid">
+            <ul class="ticks">
+              <li>
+                <strong>Click-through</strong> lets clicks pass to the app behind it.
+                <strong>Regain control</strong> is always a shortcut, a tray click or a button away.
+              </li>
+              <li>
+                <strong>Global shortcuts</strong> start, pause and nudge it while another app has
+                focus.
+              </li>
+              <li><strong>Mirror</strong> it horizontally, vertically or both for glass rigs.</li>
+              <li>
+                Font, size, weight, line spacing, colours, tint, margins and the reading guide are
+                yours to set. Light, dark and high-contrast themes, and reduced motion, are built
+                in.
+              </li>
+            </ul>
+            <figure class="shot">
+              <img
+                src="images/overview.webp"
+                width="1377"
+                height="939"
+                loading="lazy"
+                decoding="async"
+                alt="The SeeRead main window in the dark theme: the script editor on the left and the teleprompter preview on the right, with the current line on the yellow reading guide and a stage direction in light blue."
+              />
+              <figcaption>The script editor and teleprompter preview, dark theme.</figcaption>
+            </figure>
+          </div>
+
+          <h3 class="sub">Keyboard shortcuts</h3>
+          <div class="table-wrap">
+            <table class="keys">
+              <thead>
+                <tr>
+                  <th scope="col">Action</th>
+                  <th scope="col">Windows and Linux</th>
+                  <th scope="col">macOS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Start or pause</th>
+                  <td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>Shift</kbd><kbd>Space</kbd></td>
+                  <td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>⇧</kbd><kbd>Space</kbd></td>
+                </tr>
+                <tr>
+                  <th scope="row">Restart</th>
+                  <td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>Shift</kbd><kbd>R</kbd></td>
+                  <td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>⇧</kbd><kbd>R</kbd></td>
+                </tr>
+                <tr>
+                  <th scope="row">Stop</th>
+                  <td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>Shift</kbd><kbd>S</kbd></td>
+                  <td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>⇧</kbd><kbd>S</kbd></td>
+                </tr>
+                <tr>
+                  <th scope="row">Faster or slower</th>
+                  <td>
+                    <kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>Shift</kbd
+                    ><kbd class="arrow arrow-up"
+                      ><svg aria-hidden="true"><use href="#arrow" /></svg
+                      ><span class="vh">Up arrow</span></kbd
+                    >
+                    /
+                    <kbd class="arrow arrow-down"
+                      ><svg aria-hidden="true"><use href="#arrow" /></svg
+                      ><span class="vh">Down arrow</span></kbd
+                    >
+                  </td>
+                  <td>
+                    <kbd>⌘</kbd><kbd>⌥</kbd><kbd>⇧</kbd
+                    ><kbd class="arrow arrow-up"
+                      ><svg aria-hidden="true"><use href="#arrow" /></svg
+                      ><span class="vh">Up arrow</span></kbd
+                    >
+                    /
+                    <kbd class="arrow arrow-down"
+                      ><svg aria-hidden="true"><use href="#arrow" /></svg
+                      ><span class="vh">Down arrow</span></kbd
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Click-through on or off</th>
+                  <td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>Shift</kbd><kbd>L</kbd></td>
+                  <td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>⇧</kbd><kbd>L</kbd></td>
+                </tr>
+                <tr>
+                  <th scope="row">Show or hide the teleprompter</th>
+                  <td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>Shift</kbd><kbd>O</kbd></td>
+                  <td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>⇧</kbd><kbd>O</kbd></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">
+            All of them can be changed in Settings. Inside the teleprompter: <kbd>Space</kbd> start
+            or pause,
+            <kbd class="arrow arrow-up"
+              ><svg aria-hidden="true"><use href="#arrow" /></svg
+              ><span class="vh">Up arrow</span></kbd
+            >
+            /
+            <kbd class="arrow arrow-down"
+              ><svg aria-hidden="true"><use href="#arrow" /></svg
+              ><span class="vh">Down arrow</span></kbd
+            >
+            speed,
+            <kbd class="arrow arrow-left"
+              ><svg aria-hidden="true"><use href="#arrow" /></svg
+              ><span class="vh">Left arrow</span></kbd
+            >
+            /
+            <kbd class="arrow arrow-right"
+              ><svg aria-hidden="true"><use href="#arrow" /></svg
+              ><span class="vh">Right arrow</span></kbd
+            >
+            back or forward, <kbd>PgUp</kbd> / <kbd>PgDn</kbd> jump, <kbd>Home</kbd> restart,
+            <kbd>Esc</kbd> stop.
+          </p>
+        </div>
+      </section>
+
+      <section class="sec sec-night" id="privacy" aria-labelledby="privacy-title">
+        <span class="tc" aria-hidden="true" data-tc></span>
+        <div class="sec-body">
+          <h2 id="privacy-title" class="cap">
+            <span>Nothing you read or say leaves your computer.</span>
+          </h2>
+          <dl class="facts">
+            <div>
+              <dt>No account</dt>
+              <dd>Download it, open it, start reading.</dd>
+            </div>
+            <div>
+              <dt>No cloud</dt>
+              <dd>Speech recognition runs on your computer. Audio is never saved or sent.</dd>
+            </div>
+            <div>
+              <dt>No telemetry</dt>
+              <dd>No analytics, no crash reporting, no update checks.</dd>
+            </div>
+            <div>
+              <dt>No network at all</dt>
+              <dd>The app makes no connections while it runs and blocks remote resources.</dd>
+            </div>
+          </dl>
+          <p class="mic-line">
+            <span class="mic"><span class="mic-dot"></span>Mic on</span>
+            <span
+              >The microphone opens only while Voice mode or a microphone test is running, and this
+              red indicator shows the whole time. Pausing keeps it open so you can resume instantly;
+              Stop releases it.</span
+            >
+          </p>
+          <p class="note">
+            Scripts are plain files you choose, settings stay in SeeRead's own folder, and the
+            clipboard is touched only when you copy, cut or paste.
+            <a href="https://github.com/clintgalendez/SeeRead/blob/main/docs/PRIVACY.md"
+              >Read the privacy statement</a
+            >.
+          </p>
+
+          <h3 class="sub" id="capture">Hiding the teleprompter from screen capture</h3>
+          <p class="intro">
+            SeeRead can ask your operating system to leave the teleprompter out of screenshots,
+            recordings and screen sharing, then shows you what the system reports back.
+          </p>
+          <div class="table-wrap">
+            <table class="matrix">
+              <thead>
+                <tr>
+                  <th scope="col">System</th>
+                  <th scope="col">What to expect</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Windows 10 (2004 or later) and 11</th>
+                  <td>Hidden from most capture and sharing tools.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Older Windows 10</th>
+                  <td>Shows up as a black rectangle instead.</td>
+                </tr>
+                <tr>
+                  <th scope="row">macOS</th>
+                  <td>
+                    Best effort. Tools built on ScreenCaptureKit (macOS 15+) may still capture it.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Linux (X11 and Wayland)</th>
+                  <td>
+                    Not supported; the teleprompter appears in captures. On Wayland, share a single
+                    window instead of the whole screen.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="warning">
+            <strong>This is never a guarantee.</strong> A camera filming the screen, remote-desktop
+            sessions, driver-level capture, browser-based screen sharing and system updates can all
+            still capture the window. Always check a test recording.
+          </p>
+        </div>
+      </section>
+
+      <section class="sec" id="platforms" aria-labelledby="platforms-title">
+        <span class="tc" aria-hidden="true" data-tc></span>
+        <div class="sec-body">
+          <h2 id="platforms-title" class="cap">
+            <span>Exactly what works,</span><br /><span>and where.</span>
+          </h2>
+          <p class="intro">
+            Windows is where SeeRead is tested by hand. The macOS and Linux builds are compiled and
+            unit-tested on every change but have not been checked on real hardware yet.
+          </p>
+          <div class="table-wrap">
+            <table class="matrix support">
+              <thead>
+                <tr>
+                  <th scope="col">Feature</th>
+                  <th scope="col">Windows</th>
+                  <th scope="col">macOS</th>
+                  <th scope="col">Linux</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Script editor, clipboard, autosave</th>
+                  <td data-s="ok">Tested</td>
+                  <td data-s="built">Untested</td>
+                  <td data-s="built">Untested</td>
+                </tr>
+                <tr>
+                  <th scope="row">See-through, always-on-top teleprompter</th>
+                  <td data-s="ok">Tested</td>
+                  <td data-s="built">Untested</td>
+                  <td data-s="part">Partial¹</td>
+                </tr>
+                <tr>
+                  <th scope="row">Auto-scroll and stage directions</th>
+                  <td data-s="ok">Tested</td>
+                  <td data-s="built">Untested</td>
+                  <td data-s="built">Untested</td>
+                </tr>
+                <tr>
+                  <th scope="row">Speech engine on recorded audio</th>
+                  <td data-s="ok">Tested</td>
+                  <td data-s="built">Untested</td>
+                  <td data-s="ok">Tested²</td>
+                </tr>
+                <tr>
+                  <th scope="row">Voice tracking with a live microphone</th>
+                  <td data-s="built">Untested</td>
+                  <td data-s="built">Untested</td>
+                  <td data-s="built">Untested</td>
+                </tr>
+                <tr>
+                  <th scope="row">Click-through</th>
+                  <td data-s="ok">Tested</td>
+                  <td data-s="built">Untested</td>
+                  <td data-s="part">Partial¹</td>
+                </tr>
+                <tr>
+                  <th scope="row">Global shortcuts</th>
+                  <td data-s="ok">Tested</td>
+                  <td data-s="built">Untested</td>
+                  <td data-s="part">Partial³</td>
+                </tr>
+                <tr>
+                  <th scope="row">Screen-capture exclusion</th>
+                  <td data-s="ok">Tested</td>
+                  <td data-s="part">Partial</td>
+                  <td data-s="no">No</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ol class="footnotes">
+            <li>
+              ¹ Depends on the compositor. On Wayland, the system decides window placement and may
+              ignore always-on-top; Settings explains what your session allows.
+            </li>
+            <li>² Checked in CI on Ubuntu against public LibriSpeech recordings.</li>
+            <li>
+              ³ Needs an X11 or XWayland session; native Wayland does not allow global shortcuts.
+            </li>
+          </ol>
+          <p class="note">
+            <strong>Tested</strong> means exercised on real hardware, not just compiled.
+            <a href="https://github.com/clintgalendez/SeeRead/blob/main/docs/platform-support.md"
+              >Full verification notes</a
+            >.
+          </p>
+        </div>
+      </section>
+
+      <section class="sec sec-night" id="faq" aria-labelledby="faq-title">
+        <span class="tc" aria-hidden="true" data-tc></span>
+        <div class="sec-body">
+          <h2 id="faq-title" class="cap"><span>Questions, answered.</span></h2>
+          <div class="faq">
+            <details>
+              <summary>Is SeeRead free?</summary>
+              <p>
+                Yes. SeeRead is free and open source under the Apache License 2.0, and it needs no
+                account.
+              </p>
+            </details>
+            <details>
+              <summary>Does SeeRead need an internet connection?</summary>
+              <p>
+                No. After you download it, SeeRead makes no network connections while it runs: no
+                update checks, no analytics, no telemetry and no remote fonts.
+              </p>
+            </details>
+            <details>
+              <summary>Is my voice recorded or sent anywhere?</summary>
+              <p>
+                No. Audio is processed in memory by the speech engine on your computer and discarded
+                immediately. It is never written to disk, logged or transmitted.
+              </p>
+            </details>
+            <details>
+              <summary>Which languages does voice tracking support?</summary>
+              <p>
+                An English model is bundled. You can add any sherpa-onnx streaming transducer model
+                for other languages. Auto-scroll works with a script in any language.
+              </p>
+            </details>
+            <details>
+              <summary>Will the teleprompter show up in my recording or video call?</summary>
+              <p>
+                SeeRead can ask the operating system to leave the teleprompter out of captures. On
+                Windows 10 version 2004 and later it is hidden from most capture and sharing tools;
+                on macOS it is best effort; on Linux it is not supported. This is never a guarantee,
+                so always check a test recording.
+                <a href="#capture">Details by system</a>.
+              </p>
+            </details>
+            <details>
+              <summary>Can I use SeeRead with a glass teleprompter rig?</summary>
+              <p>Yes. The teleprompter can be mirrored horizontally, vertically or both.</p>
+            </details>
+            <details>
+              <summary>Why does Windows or macOS warn me when I open the installer?</summary>
+              <p>
+                The installers are not code-signed yet, so Windows SmartScreen and macOS Gatekeeper
+                warn on first launch. Every release lists SHA-256 checksums and carries
+                build-provenance attestations so you can verify your download.
+              </p>
+            </details>
+            <details>
+              <summary>Can I control the teleprompter while another app has focus?</summary>
+              <p>
+                Yes. Global shortcuts start, pause, restart, stop and change speed while your
+                recorder or video call has focus. On Linux they need an X11 or XWayland session;
+                native Wayland does not allow them.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec sec-yellow" id="download" aria-labelledby="download-title">
+        <span class="tc" aria-hidden="true" data-tc></span>
+        <div class="sec-body">
+          <h2 id="download-title" class="cap cap-xl"><span>Ready when you are.</span></h2>
+          <ul class="downloads">
+            <li>
+              <a href="https://github.com/clintgalendez/SeeRead/releases/latest" data-os="Windows">
+                <strong>Windows</strong>
+                <span>10 and 11, 64-bit · .exe or .msi</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/clintgalendez/SeeRead/releases/latest" data-os="macOS">
+                <strong>macOS</strong>
+                <span>11 or later, Apple silicon and Intel · .dmg</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/clintgalendez/SeeRead/releases/latest" data-os="Linux">
+                <strong>Linux</strong>
+                <span>x86-64 · .AppImage or .deb</span>
+              </a>
+            </li>
+          </ul>
+          <p class="verify">
+            Installers are unsigned for now, so your system will warn on first launch. Check a
+            download against the release's <code>SHA256SUMS</code>, or verify its provenance:
+          </p>
+          <pre
+            class="cmd"
+          ><code>gh attestation verify &lt;file&gt; <span class="nowrap">--repo clintgalendez/SeeRead</span></code></pre>
+          <p class="verify">
+            SeeRead is built in the open.
+            <a href="https://github.com/clintgalendez/SeeRead"
+              >Read the code, report a bug or contribute on GitHub</a
+            >.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div class="foot-inner">
+        <a class="brand" href="./">
+          <img src="favicon.svg" alt="" width="28" height="28" />
+          <span>SeeRead</span>
+        </a>
+        <ul>
+          <li><a href="https://github.com/clintgalendez/SeeRead">GitHub</a></li>
+          <li><a href="https://github.com/clintgalendez/SeeRead/releases">Releases</a></li>
+          <li>
+            <a href="https://github.com/clintgalendez/SeeRead/blob/main/CHANGELOG.md">Changelog</a>
+          </li>
+          <li>
+            <a href="https://github.com/clintgalendez/SeeRead/blob/main/docs/PRIVACY.md">Privacy</a>
+          </li>
+          <li>
+            <a href="https://github.com/clintgalendez/SeeRead/blob/main/SECURITY.md">Security</a>
+          </li>
+          <li>
+            <a href="https://github.com/clintgalendez/SeeRead/blob/main/CONTRIBUTING.md"
+              >Contributing</a
+            >
+          </li>
+        </ul>
+        <p>
+          Open source under the Apache License 2.0. This site sets no cookies, runs no analytics and
+          loads nothing from other servers.<span data-readtime></span>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
